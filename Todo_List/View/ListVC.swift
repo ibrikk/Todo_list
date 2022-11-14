@@ -11,12 +11,16 @@ class ListVC: UIViewController {
     
     @IBOutlet weak var table: UITableView!
     
-    var todos: [String] = ["Do the dishes", "Walk the dog"]
+    let viewModel = ListViewModel()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
+        updateTableView()
+    }
+    
+    fileprivate func updateTableView() {
+        viewModel.fetchData()
+        table.reloadData()
     }
     
     @IBAction func addPressed(_ sender: Any) {
@@ -25,8 +29,10 @@ class ListVC: UIViewController {
                            "Add",
                            "Cancel",
                            " Enter Here") { text in
-            // Save Data
-            // Update List
+            if !text.isEmpty {
+                self.viewModel.saveData(title: text)
+                self.updateTableView()
+            }
             
         }
                            
@@ -35,15 +41,25 @@ class ListVC: UIViewController {
                            
                            extension ListVC: UITableViewDataSource {
             func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-                todos.count
+                viewModel.listArray.count
             }
             
             func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
                 let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath)
-                let todo = todos[indexPath.row]
+                let todo = viewModel.listArray[indexPath.row].title
                 cell.textLabel?.text = todo
                 return cell
             }
-            
-            
         }
+
+extension ListVC: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        true
+    }
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            viewModel.deleteData(index: indexPath.row)
+            updateTableView()
+        }
+    }
+}

@@ -9,7 +9,9 @@ import UIKit
 
 class CoreDataHelper {
     static let shared = CoreDataHelper()
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
     func fetchData() -> [List]? {
         do {
             return try self.context.fetch(List.fetchRequest())
@@ -30,7 +32,15 @@ class CoreDataHelper {
         }
     }
     
-    func deleteData() {
-        
+    func deleteData(index: Int) {
+        if let dataArray = fetchData() {
+            context.delete(dataArray[index])
+        }
+        do {
+            try self.context.save()
+        } catch {
+            print("Error \(error.localizedDescription)")
+        }
     }
+    
 }
