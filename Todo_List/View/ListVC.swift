@@ -28,29 +28,29 @@ class ListVC: UIViewController {
                            "",
                            "Add",
                            "Cancel",
-                           " Enter Here") { text in
+                           "Enter Here") { text in
             if !text.isEmpty {
                 self.viewModel.saveData(title: text)
                 self.updateTableView()
             }
             
         }
-                           
-                           }
-                           }
-                           
-                           extension ListVC: UITableViewDataSource {
-            func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-                viewModel.listArray.count
-            }
-            
-            func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-                let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath)
-                let todo = viewModel.listArray[indexPath.row].title
-                cell.textLabel?.text = todo
-                return cell
-            }
-        }
+        
+    }
+}
+
+extension ListVC: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.listArray.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ListCell", for: indexPath)
+        let todo = viewModel.listArray[indexPath.row].title
+        cell.textLabel?.text = todo
+        return cell
+    }
+}
 
 extension ListVC: UITableViewDelegate {
     func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
