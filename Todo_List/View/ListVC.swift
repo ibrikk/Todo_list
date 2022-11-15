@@ -17,7 +17,8 @@ class ListVC: UIViewController {
         super.viewDidLoad()
         updateTableView()
     }
-    
+    // Private is used within the same file but different classes
+    // Private only within the class itself
     fileprivate func updateTableView() {
         viewModel.fetchData()
         table.reloadData()
@@ -25,7 +26,7 @@ class ListVC: UIViewController {
     
     @IBAction func addPressed(_ sender: Any) {
         alertWithTextField(with: "Add Item",
-                           "",
+                           "", // Empty
                            "Add",
                            "Cancel",
                            "Enter Here") { text in
@@ -33,9 +34,7 @@ class ListVC: UIViewController {
                 self.viewModel.saveData(title: text)
                 self.updateTableView()
             }
-            
         }
-        
     }
 }
 

@@ -8,6 +8,7 @@
 import UIKit
 
 class CoreDataHelper {
+    // Initializes intself as a singleton object
     static let shared = CoreDataHelper()
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
